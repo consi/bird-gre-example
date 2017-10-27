@@ -1,6 +1,6 @@
 bird-gre-example
 ================
-![alt text][https://github.com/consi/bird-gre-example/blob/master/bgp.png]
+![alt text](https://github.com/consi/bird-gre-example/blob/master/bgp.png)
 
 A combination of Vagrant and ansible, that shows how to simply create kind of overlay network 
 from scratch using GRE tunnels and BGP protocol.

@@ -1,4 +1,4 @@
 - name: "Bring br0 up"
-  command: "ifup br0"
+  shell: "ifup br0"
 - name: "Bring tunnels up"
-  command: "ifup $(awk '/auto tun/{print $2}' /etc/network/interfaces.d/birdnet.conf | xargs)"
+  shell: "ifup $(awk '/auto tun/{print $2}' /etc/network/interfaces.d/birdnet.conf | xargs)"

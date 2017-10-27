@@ -7,7 +7,7 @@ Vagrant.configure("2") do |config|
             machine.vm.provider :virtualbox do |vbox|
                 # Let's name machines in human way
                 vbox.name = "vm_bird_#{machine_id}"
-                vbox.customize ["modifyvm", :id, "--memory", 254]
+                vbox.customize ["modifyvm", :id, "--memory", 256]
                 vbox.customize ["modifyvm", :id, "--cpus", 1]
             end
             #With debian jessie
@@ -24,7 +24,6 @@ Vagrant.configure("2") do |config|
             machine.vm.provision "shell", inline: "sudo pip install ansible"
             #And execute ansible when all of this will be done.
             if machine_id == N
-
                 machine.vm.provision :ansible do |ansible|
                     ansible.limit = "all"
                     ansible.playbook = "bird.yml"

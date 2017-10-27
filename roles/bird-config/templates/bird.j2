@@ -19,13 +19,13 @@ protocol kernel rib {
 
 # Incoming filter
 filter incoming {
-    if (net ~ [ 172.19.1.0/24+ ]) then reject; #Accept only 172.19.1.0/24+
+    if (net ~ [ 172.19.1.0/24+ ]) then accept; #Accept only 172.19.1.0/24+
     reject;
 }
 
 # Outgoing filter
 filter outgoing {
-    if proto="bridge" then { accept; } #Announce routes learned from bridge proto
+    if (net ~ [ 172.19.1.0/24+ ]) then accept; #Accept only 172.19.1.0/24+
     reject;
 }
 {% for vm in hostvars[inventory_hostname].groups.all %}

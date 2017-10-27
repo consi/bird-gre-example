@@ -17,13 +17,14 @@ Vagrant.configure("2") do |config|
             machine.vm.hostname = "bird#{machine_id}"
             #With IPs assigned one-by-one
             machine.vm.network "private_network", ip: "192.168.42.#{10+machine_id}"
+            #Install some ansible deps and ansible itself
+            machine.vm.provision "shell", inline: "sudo apt-get install -y python-pip python-dev"
+            machine.vm.provision "shell", inline: "sudo pip install -U pip"
+            machine.vm.provision "shell", inline: "sudo pip install -U setuptools"
+            machine.vm.provision "shell", inline: "sudo pip install ansible"
             #And execute ansible when all of this will be done.
             if machine_id == N
-                # Install some ansible deps and ansible itself
-                machine.vm.provision "shell", inline: "sudo apt-get install -y python-pip python-dev"
-                machine.vm.provision "shell", inline: "sudo pip install -U pip"
-                machine.vm.provision "shell", inline: "sudo pip install -U setuptools"
-                machine.vm.provision "shell", inline: "sudo pip install ansible"
+
                 machine.vm.provision :ansible do |ansible|
                     ansible.limit = "all"
                     ansible.playbook = "bird.yml"

@@ -1,0 +1,5 @@
+- name: "Install tools"
+  apt: name="{{ item }}" state=installed
+  with_items:
+    - "bird"
+    - "bridge-utils"

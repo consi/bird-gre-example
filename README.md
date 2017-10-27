@@ -7,7 +7,7 @@ from scratch using GRE tunnels and BGP protocol.
 
 Usage
 -----
-Just clone this repository and invoke command:
+Just clone this repository and invoke command (this assumes that you have vagrant installed and configured):
 ```
 vagrant up
 ```
@@ -18,6 +18,10 @@ bird works with BGP configuration. To access vm, type:
 vagrant ssh birdN
 ```
 where N is number of VM (1-5 in default configuration)
+
+Purpose
+-------
+This may be used as a BGP and BIRD (http://bird.network.cz) learning playground
 
 License
 -------

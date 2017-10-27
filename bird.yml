@@ -3,3 +3,5 @@
   become: true
   roles:
     - install-tools
+    - gre-tunnels-and-bridges
+    - bird-config

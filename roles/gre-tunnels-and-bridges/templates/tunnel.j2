@@ -1,0 +1,22 @@
+#Main bridge, for announcement, tests - as a loopback interface
+iface br0 inet static
+    bridge_ports none
+    address 172.19.1.{{ inventory_hostname.split('bird')[1] }}
+    netmask 255.255.255.255
+
+{% for vm in hostvars[inventory_hostname].groups.all %}
+{% if vm != inventory_hostname %}
+{% set n = vm.split('bird')[1] %}
+{% set m = inventory_hostname.split('bird')[1] %}
+# Tunnel to {{ vm }}
+auto tun{{ n }}
+iface tun{{ n }} inet static
+    address 172.11.{{ m }}.{{ n }}
+    pointopoint 172.11.{{ n }}.{{ m }}
+    netmask 255.255.255.255
+    pre-up ip tunnel add tun{{ n }} mode gre local {{ hostvars[inventory_hostname].ansible_eth1.ipv4.address }} remote 192.168.42.1{{ n }} ttl 255
+    up ifconfig tun{{ n }} multicast
+    post-down ip tunnel del tun{{ n }}
+
+{% endif %}
+{% endfor %}

@@ -1,0 +1,45 @@
+#Router ID
+router id 172.19.1.{{ inventory_hostname.split('bird')[1] }}
+
+#Bird needs to know about local network topology
+protocol device interfaces {
+    scan time 60;
+}
+protocol direct bridges{
+    interface "br*"
+}
+
+#We need to update kernel routing table somehow
+protocol kernel rib {
+    persist;
+    scan time 20;
+    import none;
+    export all;
+}
+
+# Incoming filter
+filter incoming {
+    if (net ~ [ 172.19.1.0/24+ ]) then reject; #Accept only 172.19.1.0/24+
+    reject;
+}
+
+# Outgoing filter
+filter outgoing {
+    if proto="bridge" then { accept; } #Announce routes learned from bridge proto
+    reject;
+}
+{% for vm in hostvars[inventory_hostname].groups.all %}
+{% if vm != inventory_hostname %}
+{% set n = vm.split('bird')[1]|int %}
+{% set m = inventory_hostname.split('bird')[1]|int %}
+protocol bgp BIRD{{ m }}_TO_BIRD{{ n }} {
+ description "BGP Session from bird{{ m }} TO bird{{ n }}";
+ local 172.11.{{ m }}.{{ n }} as {{ 64512+m }}; # We need to use local-asns
+ neighbor 172.11.{{ n }}.{{ m }} as {{ 64512+n }}; 
+ import filter incoming;
+ export filter outgoing;
+ default bgp_local_pref 100; # Default 100 as localpref for bgp
+}
+
+{% endif %}
+{% endfor %}

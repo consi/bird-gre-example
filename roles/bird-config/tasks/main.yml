@@ -1,0 +1,2 @@
+- name: "Generate config for BIRD"
+  template: src="bird.j2" dest="/etc/bird/bird.conf"

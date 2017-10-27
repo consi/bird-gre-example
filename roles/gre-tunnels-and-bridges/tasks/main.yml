@@ -1,2 +1,2 @@
 - name: "Generate config for GRE Tunnels"
-  template: src="tunnel.j2" dest="/etc/network/interfaces.d/tunnels.conf"
+  template: src="tunnel.j2" dest="/etc/network/interfaces.d/birdnet.conf"

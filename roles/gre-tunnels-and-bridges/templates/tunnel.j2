@@ -13,7 +13,6 @@ auto tun{{ n }}
 iface tun{{ n }} inet static
     address 172.11.{{ m }}.{{ n }}
     pointopoint 172.11.{{ n }}.{{ m }}
-    netmask 255.255.255.255
     pre-up ip tunnel add tun{{ n }} mode gre local {{ hostvars[inventory_hostname].ansible_eth1.ipv4.address }} remote 192.168.42.1{{ n }} ttl 255
     up ifconfig tun{{ n }} multicast
     post-down ip tunnel del tun{{ n }}

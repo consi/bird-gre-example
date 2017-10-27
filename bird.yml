@@ -5,3 +5,4 @@
     - install-tools
     - gre-tunnels-and-bridges
     - bird-config
+    - bring-network-up

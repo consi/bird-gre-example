@@ -1,12 +1,12 @@
 #Router ID
-router id 172.19.1.{{ inventory_hostname.split('bird')[1] }}
+router id 172.19.1.{{ inventory_hostname.split('bird')[1] }};
 
 #Bird needs to know about local network topology
-protocol device interfaces {
+protocol device ifaces {
     scan time 60;
 }
 protocol direct bridges{
-    interface "br*"
+    interface "br*";
 }
 
 #We need to update kernel routing table somehow
